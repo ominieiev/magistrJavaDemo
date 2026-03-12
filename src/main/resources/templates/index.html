@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XLSX Processor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --accent-color: #00d2ff;
+            --accent-glow: 0 0 20px rgba(0, 210, 255, 0.5);
+            --text-main: #ffffff;
+            --text-secondary: #a0a0a0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f172a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ambient Background Glows */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #4f46e5;
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #0ea5e9;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        /* Glass Card */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            box-shadow: var(--glass-shadow);
+            max-width: 480px;
+            width: 90%;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        p {
+            font-size: 1.125rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 14px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            color: #0f172a;
+            box-shadow: var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+
+        /* Tech decorative lines */
+        .tech-line {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1;
+        }
+        .v-line { width: 1px; height: 100vh; left: 50%; transform: translateX(-50%); }
+        .h-line { height: 1px; width: 100vw; top: 50%; transform: translateY(-50%); }
+
+        /* File Input Styling */
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-label {
+            display: block;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border: 1px dashed var(--glass-border);
+            padding: 20px;
+            border-radius: 12px;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--accent-color);
+            color: var(--text-main);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Background Decor -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="tech-line v-line"></div>
+    <div class="tech-line h-line"></div>
+
+    <div class="container">
+        <h1>XLSX Processor</h1>
+        <p>Upload your Excel file to begin processing.</p>
+
+        <form action="/process" method="post" enctype="multipart/form-data">
+            <label for="file-upload" class="file-upload-label">
+                Click to select .xlsx file
+            </label>
+            <input id="file-upload" type="file" name="file" accept=".xlsx" required onchange="updateFileName(this)">
+
+            <button type="submit" class="btn">Process & Download</button>
+        </form>
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            const label = document.querySelector('.file-upload-label');
+            if (input.files && input.files.length > 0) {
+                label.textContent = input.files[0].name;
+                label.style.borderColor = 'var(--accent-color)';
+                label.style.color = 'var(--text-main)';
+            } else {
+                label.textContent = 'Click to select .xlsx file';
+            }
+        }
+    </script>
+</body>
+</html>
